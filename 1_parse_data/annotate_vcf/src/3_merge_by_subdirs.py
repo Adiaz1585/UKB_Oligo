@@ -5,8 +5,8 @@ import multiprocessing as mp
 
 
 
-input_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/vcfs/by_sample'
-output_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/vcfs/tier3'
+input_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data/vcfs/by_sample'
+output_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data/vcfs/tier3'
 
 
 def process(i):
@@ -18,4 +18,6 @@ def process(i):
 
 pool = mp.Pool(100)
 os.makedirs(output_dir, exist_ok=True)
-pool.map(process, [s for s in range(0, 1000)])
+#pool.map(process, [s for s in range(0, 1000)])
+pool.map(process, [s for s in range(0, 2)])
+

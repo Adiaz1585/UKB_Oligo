@@ -1,0 +1,7 @@
+0_data_download/ukb_vcf/data/
+1_parse_data/annotate_vcf/data/
+1_parse_data/annotate_vcf/snakemake/
+0_data_download/ukb_vcf/slurm/logs/
+temp/
+1_parse_data/annotate_vcf/slurm/logs/
+0_data_download/ukb_vcf/src/ukb48799*

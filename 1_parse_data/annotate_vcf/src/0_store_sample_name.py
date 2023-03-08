@@ -5,9 +5,9 @@ import pandas as pd
 import os
 
 
-store_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data'
-bulk_file = '/data5/deepro/ukbiobank/papers/bmi_project/0_data_download/ukb_vcf/data/bulk/ukb48799_23151.bulk'
-ukb_vcf_dir = '/data5/deepro/ukbiobank/papers/bmi_project/0_data_download/ukb_vcf/data/vcf'
+store_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data'
+bulk_file = '/data5/austin/work/UKB_oligo/UKB_Oligo/0_data_download/ukb_vcf/data/bulk/ukb48799_23151.bulk'
+ukb_vcf_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/0_data_download/ukb_vcf/data/vcf'
 
 def main():
 	with open(bulk_file, 'r') as f:

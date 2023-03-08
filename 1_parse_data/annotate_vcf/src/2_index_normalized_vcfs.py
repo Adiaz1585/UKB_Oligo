@@ -3,9 +3,9 @@ import pandas as pd
 import subprocess
 import multiprocessing as mp
 
-root_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/'
-input_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/intermediate_files'
-output_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/vcfs/by_sample'
+root_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data/'
+input_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data/intermediate_files'
+output_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data/vcfs/by_sample'
 
 
 def process(i):

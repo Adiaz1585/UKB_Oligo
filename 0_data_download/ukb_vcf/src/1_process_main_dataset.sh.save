@@ -12,8 +12,8 @@ encoded_main_dataset="./ukbhelpers/ukb48799.enc"
 key_file="./ukbhelpers/k45023r48799.key"
 
 unpacked_main_dataset="./ukbhelpers/ukb48799.enc_ukb"
-conv_main_dataset="../../../../testing_area/download_vcf/data/ukb48799"
-conv_bulk_dataset="../../../../testing_area/download_vcf/data/bulk/ukb48799"
+conv_main_dataset="/data5/deepro/ukbiobank/download_vcfs/dat"
+conv_bulk_dataset="/data5/deepro/ukbiobank/download_vcfs/data/bulk/ukb48799"
 
 # Validate main encoded dataset
 chmod 755 $md5_helper

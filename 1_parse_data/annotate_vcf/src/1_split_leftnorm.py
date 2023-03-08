@@ -3,7 +3,7 @@ import pandas as pd
 import multiprocessing as mp
 import os
 
-root_dir = '/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/'
+root_dir = '/data5/austin/work/UKB_oligo/UKB_Oligo/1_parse_data/annotate_vcf/data'
 FASTA='/data5/bx_reference/hg38/Homo_sapiens_assembly38.fasta'
 df = pd.read_csv(os.path.join(root_dir, "samples.csv"))
 num_samples = df.shape[0]
