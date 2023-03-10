@@ -5,3 +5,6 @@
 temp/
 1_parse_data/annotate_vcf/slurm/logs/
 0_data_download/ukb_vcf/src/ukb48799*
+1_parse_data/prepare_icd_codes/data
+2_prepare_data_for_analysis/data/
+

@@ -8,41 +8,43 @@ import os
 import sys
 import pandas as pd
 import argparse as arg
-from utils.utils import Node, Tree
+from utils.utils import Node, Tree, get_df_pheno
 
 sys.path.insert(0, 'utils')
 
 parser = arg.ArgumentParser()
+
+# Will need to add two more arguments for control_file and cases_file paths
 
 parser.add_argument("--icdFile", help="Provide a path to a icd file.")
 parser.add_argument("--icd10codes2sample", help="Provide a path to the directory for the ICD10 codes to samples.")
 parser.add_argument("--annot", help="Provide a path to a annotation directory.")
 parser.add_argument("--ICDCode", help="Please provide an ICD 10 code.", type= str)
 parser.add_argument("--interestedChapter", help="Please state the chapter of interest.", type=str)
-parser.add_argument("--treeFile", help="Provide a path to store the tree file.")
+#parser.add_argument("--treeFile", help="Provide a path to store the tree file.")
 args = parser.parse_args()
 
 # this is to just get how code to work with out input at the command line for testing. comment out the path and uncomment the error.
 if args.icdFile is None:
 	#icd_file = "/data5/deepro/ukbiobank/papers/bmi_project/0_data_download/ukb_icd10/data/coding19.tsv"
-	args.error("A path to an ICD file must be provided.")
+	args.error("A path to an ICD file must be providAttributeError: 'set' object has no attributeed.")
 if args.icd10codes2sample is None:
 	#icd10codes2samples_dir = "/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/prepare_icd_codes/data/icd2sample"
 	args.error("A path to the icd10 codes to smaples directorty must be provided")
 if args.annot is None:
 	#annot_dir = "/data5/deepro/ukbiobank/papers/bmi_project/1_parse_data/annotate_vcf/data/vcfs/annotated_by_sample"
 	args.error("A path to the annotation directory must be provided")
-if args.ICDCode is None:
-        args.error("An ICD 10 code must be provided for --ICDCode.")
-if args.interestedChapter is None:
-	args.error("Please provide a chapter of interest for --interestedChapter")
+#if args.interestedChapter is None:
+#	args.error("Please provide a chapter of interest for --interestedChapter")
 
 icd_file = args.icdFile
 icd10codes2samples_dir = args.icd10codes2sample
 annot_dir = args.annot
 icd_code = args.ICDCode
-interested_node = args.interestedchapter
-tree_file = args.treeFile
+interested_node = args.interestedChapter
+#tree_file = args.treeFile
+
+print(interested_node)
 
 # input files
 #icd_file = "/data5/deepro/ukbiobank/papers/bmi_project/0_data_download/ukb_icd10/data/coding19.tsv"
@@ -52,6 +54,7 @@ tree_file = args.treeFile
 
 df_pheno = pd.read_csv(args.icdFile, usecols=["coding", "meaning", "node_id", "parent_id"], sep="\t")
 
+get_df_pheno(df_pheno)
 
 #plant the tree
 root_pheno = Node(0, "0", "Root Phenotype")
@@ -64,12 +67,12 @@ for ni in df_pheno.node_id:
 # print the tree
 #
 #tree_file = "/data5/deepro/ukbiobank/papers/bmi_project/2_prepare_data_for_analysis/obesity_related_diseases/data/icd_tree.txt"
-tree_file = args.treeFile
-pt = open(tree_file, "w")
-pt.close()
-tf = open(tree_file, "a")
-pheno_tree.print_tree(root_pheno, tf, max_node_level=4)
-tf.close()
+#tree_file = args.treeFile
+#pt = open(tree_file, "w")
+#pt.close()
+#tf = open(tree_file, "a")
+#pheno_tree.print_tree(root_pheno, tf, max_node_level=4)
+#tf.close()AttributeError: 'set' object has no attribute
 
 # Create code to node id reference
 code2nodeid_dict = {n.code:nid for nid,n in pheno_tree.node_dict.items()}
@@ -104,3 +107,43 @@ print(icd_code)
 interested_node = pheno_tree.node_dict[code2nodeid_dict[icd_code]]
 samples_with_code = get_samples(interested_node, icd10codes2samples_dir)
 print(len(samples_with_code))
+
+
+cases_file = "/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/cases.txt"
+controls_file = "/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/controls.txt"
+
+# here we will write the case to a file.
+with open(cases_file, 'w') as f:
+	for sample in samples_with_code:
+		f.write(sample+'\n')
+
+
+samples = pd.read_csv("/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/sample_ids.csv")
+
+print(samples.head())
+
+print(list(samples_with_code)[0:5])
+
+cases = set(samples_with_code)
+cases = list(map(int, cases))
+print(cases[0:5])
+print(len(cases))
+samples = list(samples['x'])
+print(len(samples))
+
+controls = []
+count = 0
+#for sample in samples:
+#	if sample in cases:
+#		continue
+#	controls += [sample]
+#	count += 1
+
+controls = list(set(samples).difference(cases))
+
+print(len(controls))
+print(count)
+
+with open(controls_file, 'w') as f:
+        for sample in controls:
+                f.write(str(sample)+'\n')

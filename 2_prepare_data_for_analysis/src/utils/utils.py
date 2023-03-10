@@ -2,6 +2,11 @@ import os
 import pandas as pd
 
 
+def get_df_pheno(pass_df_pheno):
+	global df_pheno
+	df_pheno = pass_df_pheno
+
+
 class Node:
     """
     Each ICD10 diagnosis is stored as a Node object
