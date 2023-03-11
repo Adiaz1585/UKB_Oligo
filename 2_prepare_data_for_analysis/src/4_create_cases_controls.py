@@ -40,10 +40,11 @@ if args.annot is None:
 icd_file = args.icdFile
 icd10codes2samples_dir = args.icd10codes2sample
 annot_dir = args.annot
-icd_code = args.ICDCode
+icd_code = args.ICDCode.replace('_',' ')
 interested_node = args.interestedChapter
 #tree_file = args.treeFile
 
+print(icd_code)
 print(interested_node)
 
 # input files
@@ -106,43 +107,37 @@ def get_samples(node, sample_dir):
 print(icd_code)
 interested_node = pheno_tree.node_dict[code2nodeid_dict[icd_code]]
 samples_with_code = get_samples(interested_node, icd10codes2samples_dir)
+cases = set(samples_with_code)
+cases = list(map(int, cases))
+
 print(len(samples_with_code))
 
+samples = pd.read_csv("/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/sample_ids.csv")
+samples = list(samples['x'])
 
-cases_file = "/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/cases.txt"
-controls_file = "/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/controls.txt"
+new_cases = []
+for samp in cases:
+	if samp in samples:
+		new_cases += [samp]
+
+print(len(new_cases))
+
+cases_file = f"/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/controls_and_cases/cases_{icd_code}.txt"
+controls_file = f"/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/controls_and_cases/controls_{icd_code}.txt"
+
 
 # here we will write the case to a file.
 with open(cases_file, 'w') as f:
-	for sample in samples_with_code:
-		f.write(sample+'\n')
+	for sample in new_cases:
+		f.write(str(sample)+'\n')
 
-
-samples = pd.read_csv("/data5/austin/work/UKB_oligo/UKB_Oligo/2_prepare_data_for_analysis/data/sample_ids.csv")
-
-print(samples.head())
-
-print(list(samples_with_code)[0:5])
 
 cases = set(samples_with_code)
 cases = list(map(int, cases))
-print(cases[0:5])
-print(len(cases))
-samples = list(samples['x'])
-print(len(samples))
 
-controls = []
-count = 0
-#for sample in samples:
-#	if sample in cases:
-#		continue
-#	controls += [sample]
-#	count += 1
+
 
 controls = list(set(samples).difference(cases))
-
-print(len(controls))
-print(count)
 
 with open(controls_file, 'w') as f:
         for sample in controls:
